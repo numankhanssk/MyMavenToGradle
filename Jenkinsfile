@@ -1,11 +1,10 @@
 pipeline {
-    agent any
+    agent any  // Use any available agent
 
     tools {
+        gradle 'Gradle'  // Ensure this matches the name configured in Jenkins
         jdk 'JDK'
-        // No need for gradle tool if using wrapper
     }
-
     stages {
         stage('Checkout') {
             steps {
@@ -15,21 +14,27 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh './gradlew clean build'
+                sh 'gradle build'  // Run Gradle build
             }
         }
 
         stage('Test') {
             steps {
-                sh './gradlew test'
+                sh 'gradle test'  // Run unit tests
             }
         }
 
+        
+        
+       
         stage('Run Application') {
             steps {
-                sh 'java -jar build/libs/*.jar'
+                // Start the JAR application
+                sh 'gradle run'
             }
         }
+
+        
     }
 
     post {
